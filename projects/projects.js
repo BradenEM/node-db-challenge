@@ -73,10 +73,9 @@ router.post("/:id/tasks", async (req, res) => {
 router.post("/:id/resources", async (req, res) => {
   const body = req.body;
   const { id } = req.params;
-  const resource = await db("resources as r")
-    .join("project_resources as pr", "r.id", "pr.resource_id")
+  const resource = await db("resources")
     .insert(body)
-    .where({ "pr.project_id": id });
+    .where({ project_id: id });
 
   try {
     res.status(201).json(resource);
