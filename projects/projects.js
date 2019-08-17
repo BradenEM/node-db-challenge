@@ -36,10 +36,7 @@ router.get("/:id/tasks", async (req, res) => {
 
 router.get("/:id/resources", async (req, res) => {
   const { id } = req.params;
-  const resources = await db("resources as r")
-    .join("project_resources as pr", "r.id", "pr.resource_id")
-    .select("r.name", "r.description")
-    .where({ "pr.project_id": id });
+  const resources = await db("resources").where({ project_id: id });
 
   try {
     res.status(200).json(resources);
@@ -48,4 +45,43 @@ router.get("/:id/resources", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  const body = req.body;
+  const project = await db("projects").insert(body);
+
+  try {
+    res.status(201).json(project);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/:id/tasks", async (req, res) => {
+  const body = req.body;
+  const { id } = req.params;
+  const task = await db("tasks")
+    .insert(body)
+    .where({ project_id: id });
+
+  try {
+    res.status(201).json(task);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.post("/:id/resources", async (req, res) => {
+  const body = req.body;
+  const { id } = req.params;
+  const resource = await db("resources as r")
+    .join("project_resources as pr", "r.id", "pr.resource_id")
+    .insert(body)
+    .where({ "pr.project_id": id });
+
+  try {
+    res.status(201).json(resource);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 module.exports = router;
