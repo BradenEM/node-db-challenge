@@ -4,9 +4,18 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const projects = await db("projects");
+  const proj = projects.map(project => {
+    if (project.completed === 0) {
+      project.completed = false;
+      return project;
+    } else {
+      project.completed = true;
+      return project;
+    }
+  });
 
   try {
-    res.status(200).json(projects);
+    res.status(200).json(proj);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -26,9 +35,18 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/tasks", async (req, res) => {
   const { id } = req.params;
   const tasks = await db("tasks").where({ project_id: id });
+  const task = tasks.map(task => {
+    if (task.completed === 0) {
+      task.completed = false;
+      return task;
+    } else {
+      task.completed = true;
+      return task;
+    }
+  });
 
   try {
-    res.status(200).json(tasks);
+    res.status(200).json(task);
   } catch (error) {
     res.status(500).json(error);
   }
