@@ -40,11 +40,19 @@ Demonstrate your understanding of this week's concepts by answering the followin
 
 - [ ] Explain the difference between `Relational Databases` and `SQL`.
 
+Relational Databases are the software that keeps the data organized into tables. SQL is the language used to access and control the database.
+
 - [ ] Why do tables need a `primary key`?
+
+It gives each object in a table a unique identifier in which to access, edit, or delete without affecting the other items in the table.
 
 - [ ] What is the name given to a table column that references the primary key on another table.
 
+“otherTablesItemsPrimary_id”
+
 - [ ] What do we need in order to have a _many to many_ relationship between two tables.
+
+A third table that references both tables.
 
 ## Minimum Viable Product
 
